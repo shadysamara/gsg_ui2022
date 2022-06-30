@@ -14,8 +14,9 @@ class InstegramFeed extends StatelessWidget {
         appBar: AppBar(),
         body: Column(
           children: [
-            SizedBox(
-              height: 100,
+            Container(
+              color: Colors.red,
+              height: MediaQuery.of(context).size.height/8,
               child: ListView.builder(
                
                   scrollDirection: Axis.horizontal,
