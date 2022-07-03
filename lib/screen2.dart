@@ -14,7 +14,6 @@ class ScreenTest2 extends StatefulWidget {
 class ScreenTest2State extends State<ScreenTest2> {
   String content = 'Home Page';
   int index = 0;
-  bool isDark = false;
   changeContentFromDrawer(int i) {
     index = i;
     if (i == 0) {
@@ -40,7 +39,7 @@ class ScreenTest2State extends State<ScreenTest2> {
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
               children: [
-                Text(isDark ? 'ON' : 'OFF'),
+                Text(widget.isDark ? 'ON' : 'OFF'),
                 const Spacer(),
                 Switch(
                     value: widget.isDark,
