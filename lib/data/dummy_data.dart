@@ -1,3 +1,5 @@
+import 'package:gsk_ui/data/fake_news_response.dart';
+import 'package:gsk_ui/data/new_model.dart';
 import 'package:gsk_ui/models/post_response.dart';
 
 List<Map<String, dynamic>> postsResponse = [
@@ -8,7 +10,8 @@ List<Map<String, dynamic>> postsResponse = [
           'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'
     },
     'post': {
-      'content': "this is my first post, i really love flutter and i want to be senior developer",
+      'content':
+          "this is my first post, i really love flutter and i want to be senior developer",
       'image':
           'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=874&q=80',
       'noLikes': 20
@@ -69,3 +72,11 @@ List<Map<String, dynamic>> postsResponse = [
 ];
 List<PostResponse> posts =
     postsResponse.map((e) => PostResponse.fromJson(e)).toList();
+
+// List<NewsModel> newsList = [
+//   NewsModel(title: 'title', content: content, imageUrl: imageUrl, isLike: isLike)
+// ];
+List<Map<String, dynamic>> articles = newsReponse['articles'];
+List<NewsModel> news = articles.map((e) {
+  return NewsModel.fromJson(e);
+}).toList();

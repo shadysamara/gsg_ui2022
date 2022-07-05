@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:gsk_ui/data/news_app/views/screens/all_news_screen.dart';
+import 'package:gsk_ui/data/news_app/views/screens/main_screen.dart';
 import 'package:gsk_ui/instegram/instegram_feed.dart';
 import 'package:gsk_ui/my_first_ui.dart';
 import 'package:gsk_ui/screen2.dart';
@@ -31,7 +33,7 @@ class MyAppState extends State<MyApp> {
     // TODO: implement build
     return MaterialApp(
       theme: isDark ? ThemeData.dark() : ThemeData.light(),
-      home: ScreenTest2(changeTheme,isDark),
+      home: MainScreen(),
     );
   }
 }
