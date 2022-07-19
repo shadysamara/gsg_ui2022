@@ -55,7 +55,7 @@ class MyAppState extends State<MyApp> {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: isDark ? ThemeData.dark() : ThemeData.light(),
-            initialRoute: 'screen1',
+            home: InstegramFeed(),
             routes: {
               Screen1.screenName:(context)=>Screen1(),
               Screen2.screenName: (context) => Screen2('')

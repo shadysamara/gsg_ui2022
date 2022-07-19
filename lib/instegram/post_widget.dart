@@ -40,13 +40,16 @@ class PostWidget extends StatelessWidget {
           ]),
         ),
         Container(
-          color: Colors.red,
+         
           height: 300,
           width: 10000,
-          child: Image.network(
+          child:post.file==null? Image.network(
             post.image??'',
             fit: BoxFit.cover,
-          ),
+          ): Image.file(
+                  post.file!,
+                  fit: BoxFit.cover,
+                ),
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
