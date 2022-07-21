@@ -1,10 +1,16 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:gsk_ui/validation_ex/country.dart';
 import 'package:gsk_ui/validation_ex/custom_checkbox.dart';
 import 'package:gsk_ui/validation_ex/custom_textfield.dart';
 import 'package:string_validator/string_validator.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   String? requiredValidator(String v) {
     if (v.length < 3) {
       return 'name must contain at least 3 letters';
@@ -30,10 +36,17 @@ class RegisterScreen extends StatelessWidget {
   }
 
   GlobalKey<FormState> registerKey = GlobalKey();
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController emailController = TextEditingController();
+
   TextEditingController phoneController = TextEditingController();
+
   String? countryCode = '970';
+
+  Country? selectedCountry;
+  String? selectedCity;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -42,7 +55,6 @@ class RegisterScreen extends StatelessWidget {
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: Form(
-          
           key: registerKey,
           child: Column(
             children: [
@@ -54,29 +66,81 @@ class RegisterScreen extends StatelessWidget {
                 height: 15,
               ),
               CustomTextfield(
-
-                textInputType: TextInputType.emailAddress,
+                  textInputType: TextInputType.emailAddress,
                   title: 'Email',
                   validator: emailValidator,
                   controller: emailController),
               SizedBox(
                 height: 15,
               ),
-                CustomTextfield(
+              CustomTextfield(
                   textInputType: TextInputType.phone,
-                  suffix:    CountryCodePicker(
-                onChanged: (v) {
-                  countryCode = v.dialCode;
-                },initialSelection: 'PS',
-              showCountryOnly: false,
-               showOnlyCountryWhenClosed: false,
-               alignLeft: false,
-              ),
+                  suffix: CountryCodePicker(
+                    onChanged: (v) {
+                      countryCode = v.dialCode;
+                    },
+                    initialSelection: 'PS',
+                    showCountryOnly: false,
+                    showOnlyCountryWhenClosed: false,
+                    alignLeft: false,
+                  ),
                   title: 'Phone',
                   validator: phoneValidation,
                   controller: phoneController),
-                  SizedBox(height: 10,),
-           CustomCheckbox(validator: checkBoxValidator,),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(
+                      15,
+                    )),
+                child: DropdownButton<Country>(
+                    isExpanded: true,
+                    underline: SizedBox(),
+                    value: selectedCountry,
+                    items: countries.map((e) {
+                      return DropdownMenuItem<Country>(
+                        value: e,
+                        child: Text(e.name),
+                      );
+                    }).toList(),
+                    onChanged: (v) {
+                      selectedCountry = v;
+                       selectedCity = v!.cities.first;
+                      setState(() {});
+                    }),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(
+                      15,
+                    )),
+                child: DropdownButton<String>(
+                    isExpanded: true,
+                    underline: SizedBox(),
+                    value: selectedCity,
+                    items: selectedCountry?.cities.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e,
+                        child: Text(e),
+                      );
+                    }).toList(),
+                    onChanged: (v) {
+                      selectedCity = v;
+                      setState(() {});
+                    }),
+              ),
+              CustomCheckbox(
+                validator: checkBoxValidator,
+              ),
               ElevatedButton(
                   onPressed: () {
                     registerKey.currentState!.validate();
