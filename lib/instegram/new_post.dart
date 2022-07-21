@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gsk_ui/data/dummy_data.dart';
+import 'package:gsk_ui/instegram/validator_checkbox.dart';
 import 'package:gsk_ui/models/post.dart';
 import 'package:gsk_ui/models/post_response.dart';
 import 'package:gsk_ui/models/user.dart';
@@ -26,7 +27,11 @@ class _NewPostState extends State<NewPost> {
     selectedImage = File(file!.path);
     setState(() {});
   }
-
+String? requiredValidation(bool? x){
+  if(x==false){
+    return 'you must accept conditions';
+  }
+}
   GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -81,6 +86,10 @@ class _NewPostState extends State<NewPost> {
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(20))),
+                ),
+                CheckBoxValid(
+                  title: 'accept all conditions',
+                  validator: requiredValidation,
                 ),
                 ElevatedButton(
                     child: Text('Add new Post'),

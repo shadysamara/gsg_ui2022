@@ -13,6 +13,7 @@ import 'package:gsk_ui/navigation/screens/screen2.dart';
 import 'package:gsk_ui/navigation/screens/screen3.dart';
 import 'package:gsk_ui/screen2.dart';
 import 'package:gsk_ui/translated_ui.dart';
+import 'package:gsk_ui/validation_ex/register_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +56,7 @@ class MyAppState extends State<MyApp> {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: isDark ? ThemeData.dark() : ThemeData.light(),
-            home: InstegramFeed(),
+            home: RegisterScreen(),
             routes: {
               Screen1.screenName:(context)=>Screen1(),
               Screen2.screenName: (context) => Screen2('')
