@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gsk_ui/validation_ex/country.dart';
 import 'package:gsk_ui/validation_ex/custom_checkbox.dart';
 import 'package:gsk_ui/validation_ex/custom_textfield.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:gsk_ui/validation_ex/sp_helper.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -52,101 +55,117 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(title: Text('Register')),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        child: Form(
-          key: registerKey,
-          child: Column(
-            children: [
-              CustomTextfield(
-                  title: 'Name',
-                  validator: requiredValidator,
-                  controller: nameController),
-              SizedBox(
-                height: 15,
-              ),
-              CustomTextfield(
-                  textInputType: TextInputType.emailAddress,
-                  title: 'Email',
-                  validator: emailValidator,
-                  controller: emailController),
-              SizedBox(
-                height: 15,
-              ),
-              CustomTextfield(
-                  textInputType: TextInputType.phone,
-                  suffix: CountryCodePicker(
-                    onChanged: (v) {
-                      countryCode = v.dialCode;
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          child: Form(
+            key: registerKey,
+            child: Column(
+              children: [
+                CustomTextfield(
+                    title: 'Name',
+                    validator: requiredValidator,
+                    controller: nameController),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomTextfield(
+                    textInputType: TextInputType.emailAddress,
+                    title: 'Email',
+                    validator: emailValidator,
+                    controller: emailController),
+                SizedBox(
+                  height: 15,
+                ),
+                CustomTextfield(
+                    textInputType: TextInputType.phone,
+                    suffix: CountryCodePicker(
+                      onChanged: (v) {
+                        countryCode = v.dialCode;
+                      },
+                      initialSelection: 'PS',
+                      showCountryOnly: false,
+                      showOnlyCountryWhenClosed: false,
+                      alignLeft: false,
+                    ),
+                    title: 'Phone',
+                    validator: phoneValidation,
+                    controller: phoneController),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(
+                        15,
+                      )),
+                  child: DropdownButton<Country>(
+                      isExpanded: true,
+                      underline: SizedBox(),
+                      value: selectedCountry,
+                      items: countries.map((e) {
+                        return DropdownMenuItem<Country>(
+                          value: e,
+                          child: Text(e.name),
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        selectedCountry = v;
+                        selectedCity = v!.cities.first;
+                        setState(() {});
+                      }),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(
+                        15,
+                      )),
+                  child: DropdownButton<String>(
+                      isExpanded: true,
+                      underline: SizedBox(),
+                      value: selectedCity,
+                      items: selectedCountry?.cities.map((e) {
+                        return DropdownMenuItem<String>(
+                          value: e,
+                          child: Text(e),
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        selectedCity = v;
+                        setState(() {});
+                      }),
+                ),
+                CustomCheckbox(
+                  validator: checkBoxValidator,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      
+
+                      if (registerKey.currentState!.validate()) {
+                        SpHelper.spHelper.saveNewUser(
+                            name: nameController.text,
+                            email: emailController.text,
+                            phone: (countryCode??'970') + phoneController.text,
+                            country: selectedCountry?.name ?? 'not defined',
+                            city: selectedCity ?? 'not defeined');
+                      }
                     },
-                    initialSelection: 'PS',
-                    showCountryOnly: false,
-                    showOnlyCountryWhenClosed: false,
-                    alignLeft: false,
-                  ),
-                  title: 'Phone',
-                  validator: phoneValidation,
-                  controller: phoneController),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(
-                      15,
-                    )),
-                child: DropdownButton<Country>(
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    value: selectedCountry,
-                    items: countries.map((e) {
-                      return DropdownMenuItem<Country>(
-                        value: e,
-                        child: Text(e.name),
-                      );
-                    }).toList(),
-                    onChanged: (v) {
-                      selectedCountry = v;
-                       selectedCity = v!.cities.first;
-                      setState(() {});
-                    }),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(
-                      15,
-                    )),
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    value: selectedCity,
-                    items: selectedCountry?.cities.map((e) {
-                      return DropdownMenuItem<String>(
-                        value: e,
-                        child: Text(e),
-                      );
-                    }).toList(),
-                    onChanged: (v) {
-                      selectedCity = v;
-                      setState(() {});
-                    }),
-              ),
-              CustomCheckbox(
-                validator: checkBoxValidator,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    registerKey.currentState!.validate();
-                  },
-                  child: Text('Register'))
-            ],
+                    child: Text('Register')),
+                ElevatedButton(
+                    onPressed: () {
+                      SpHelper.spHelper.getUser();
+                    },
+                    child: Text('Check user'))
+              ],
+            ),
           ),
         ),
       ),
