@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:gsk_ui/todo_app/data/db_helper.dart';
 import 'package:gsk_ui/validation_ex/country.dart';
 import 'package:gsk_ui/validation_ex/custom_checkbox.dart';
 import 'package:gsk_ui/validation_ex/custom_textfield.dart';
@@ -161,7 +162,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Text('Register')),
                 ElevatedButton(
                     onPressed: () {
-                      SpHelper.spHelper.getUser();
+                   
+              
                     },
                     child: Text('Check user'))
               ],

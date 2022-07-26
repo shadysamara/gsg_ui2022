@@ -4,7 +4,8 @@ import 'package:gsk_ui/todo_app/views/widgets/task_widget.dart';
 
 class InCompleteTasksScreen extends StatelessWidget {
  Function function;
-  InCompleteTasksScreen(this.function);
+  Function function2;
+  InCompleteTasksScreen(this.function,this.function2);
  
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class InCompleteTasksScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return TaskWidget(
               tasks.where((element) => !element.isComplete).toList()[index],
-              function);
+              function,function2);
         });
   }
 }

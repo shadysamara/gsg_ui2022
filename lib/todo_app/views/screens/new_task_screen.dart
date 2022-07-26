@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gsk_ui/todo_app/data/data_repo.dart';
+import 'package:gsk_ui/todo_app/data/db_helper.dart';
 import 'package:gsk_ui/todo_app/models/task_model.dart';
 
 class NewTaskScreen extends StatelessWidget {
@@ -20,9 +21,7 @@ class NewTaskScreen extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  tasks.add(TaskModel(title: content));
-                  function();
-                  Navigator.pop(context);
+                  DbHelper.dbHelper.insertNewTask(TaskModel(title: content));
                 },
                 child: Text('Add New Task'))
           ],

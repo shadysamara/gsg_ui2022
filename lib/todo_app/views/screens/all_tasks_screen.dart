@@ -4,14 +4,15 @@ import 'package:gsk_ui/todo_app/views/widgets/task_widget.dart';
 
 class AllTasksScreen extends StatelessWidget {
   Function function;
-  AllTasksScreen(this.function);
+  Function function2;
+  AllTasksScreen(this.function,this.function2);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListView.builder(
         itemCount: tasks.length,
         itemBuilder: (context, index) {
-          return TaskWidget(tasks[index], function);
+          return TaskWidget(tasks[index], function,function2);
         });
   }
 }

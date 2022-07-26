@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gsk_ui/todo_app/data/data_repo.dart';
+import 'package:gsk_ui/todo_app/data/db_helper.dart';
 import 'package:gsk_ui/todo_app/models/task_model.dart';
 import 'package:gsk_ui/todo_app/views/screens/all_tasks_screen.dart';
 import 'package:gsk_ui/todo_app/views/screens/completed_tasks_screen.dart';
@@ -13,15 +16,25 @@ class MainTodoPage extends StatefulWidget {
 
 class _MainPageState extends State<MainTodoPage>
     with SingleTickerProviderStateMixin {
+  getAllTasks() async {
+    tasks = await DbHelper.dbHelper.selectAllTasks();
+    setState(() {});
+  }
+
   changeTaskStatus(TaskModel taskModel) {
+   
+    TaskModel t = taskModel;
     int index = tasks.indexOf(taskModel);
+    log(t.toMap().toString());
     tasks[index].isComplete = !tasks[index].isComplete;
+    log(t.toMap().toString());
+    DbHelper.dbHelper.updateOneTask(taskModel);
     setState(() {});
   }
 
   removeTask(TaskModel taskModel) {
     tasks.remove(taskModel);
-
+    DbHelper.dbHelper.deleteOneTask(taskModel.id!);
     setState(() {});
   }
 
@@ -39,6 +52,7 @@ class _MainPageState extends State<MainTodoPage>
     // TODO: implement initState
     super.initState();
     initTabBar();
+    getAllTasks();
   }
 
   @override
@@ -68,9 +82,9 @@ class _MainPageState extends State<MainTodoPage>
         },
       ),
       body: TabBarView(controller: tabController!, children: [
-        AllTasksScreen(changeTaskStatus),
-        CompleteTasksScreen(changeTaskStatus),
-        InCompleteTasksScreen(changeTaskStatus)
+        AllTasksScreen(changeTaskStatus, removeTask),
+        CompleteTasksScreen(changeTaskStatus, removeTask),
+        InCompleteTasksScreen(changeTaskStatus, removeTask)
       ]),
     );
   }

@@ -45,6 +45,7 @@ dependencies:
   string_validator: ^0.3.0
   country_code_picker: ^2.0.2
   shared_preferences: ^2.0.15
+  sqflite: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

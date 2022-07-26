@@ -12,6 +12,7 @@ import 'package:gsk_ui/navigation/screens/screen1.dart';
 import 'package:gsk_ui/navigation/screens/screen2.dart';
 import 'package:gsk_ui/navigation/screens/screen3.dart';
 import 'package:gsk_ui/screen2.dart';
+import 'package:gsk_ui/todo_app/data/db_helper.dart';
 import 'package:gsk_ui/translated_ui.dart';
 import 'package:gsk_ui/validation_ex/register_screen.dart';
 import 'package:gsk_ui/validation_ex/sp_helper.dart';
@@ -20,6 +21,7 @@ import 'package:gsk_ui/validation_ex/splach_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SpHelper.spHelper.initSp();
+  await DbHelper.dbHelper.initDatabase();
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(

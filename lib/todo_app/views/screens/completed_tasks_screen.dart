@@ -5,7 +5,8 @@ import 'package:lottie/lottie.dart';
 
 class CompleteTasksScreen extends StatelessWidget {
   Function function;
-  CompleteTasksScreen(this.function);
+    Function function2;
+  CompleteTasksScreen(this.function,this.function2);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -17,7 +18,7 @@ class CompleteTasksScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return TaskWidget(
               tasks.where((element) => element.isComplete).toList()[index],
-              function);
+              function,function2);
         });
   }
 }
