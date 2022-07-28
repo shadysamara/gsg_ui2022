@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:gsk_ui/todo_app/data/data_repo.dart';
 import 'package:gsk_ui/todo_app/data/db_helper.dart';
+import 'package:gsk_ui/todo_app/data/file_helper.dart';
 import 'package:gsk_ui/todo_app/models/task_model.dart';
 import 'package:gsk_ui/todo_app/views/screens/all_tasks_screen.dart';
 import 'package:gsk_ui/todo_app/views/screens/completed_tasks_screen.dart';
@@ -22,7 +23,6 @@ class _MainPageState extends State<MainTodoPage>
   }
 
   changeTaskStatus(TaskModel taskModel) {
-   
     TaskModel t = taskModel;
     int index = tasks.indexOf(taskModel);
     log(t.toMap().toString());
@@ -74,11 +74,12 @@ class _MainPageState extends State<MainTodoPage>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: ((context) =>
-                      NewTaskScreen(setStateAfterAddNewTask))));
+          FileHelper.fileHelper.readFromFile();
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: ((context) =>
+          //             NewTaskScreen(setStateAfterAddNewTask))));
         },
       ),
       body: TabBarView(controller: tabController!, children: [

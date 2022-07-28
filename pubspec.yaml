@@ -46,6 +46,8 @@ dependencies:
   country_code_picker: ^2.0.2
   shared_preferences: ^2.0.15
   sqflite: ^2.0.2+1
+  path_provider: ^2.0.11
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:
